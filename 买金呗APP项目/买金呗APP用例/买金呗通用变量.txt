@@ -1,0 +1,26 @@
+*** Variables ***
+${手机号码}           18928480059
+${登录密码}           123456
+${首页立即购买元素}       id=com.hsd.finance:id/btn_buy_gold
+${首页定期金立即购买元素}    id=com.hsd.finance:id/btn_older_buy
+${title元素}        id=com.hsd.finance:id/tvTitle
+${详情页立即购买}        id=com.hsd.finance:id/tvBuyNow
+${看涨跌购买金额}        100
+${定期金购买金额}        100
+${活期金购买金额}        100
+${活期金购买克重}        1
+${定期金购买克重}        1
+${交易密码}           123456
+${购买成功}           id=com.hsd.finance:id/tvSuccessHint
+${买金页面}           id=com.hsd.finance:id/tvMainTabItem
+${首页活期金元素}        id=com.hsd.finance:id/tv_content
+${买金页面顶部实时金价元素}    id=com.hsd.finance:id/imgRefresh
+${首页关闭公告元素}       id=com.hsd.finance:id/ibCloseAnnouce
+${登录/注册元素}        xpath=//android.widget.RelativeLayout[contains(@resource-id,'com.hsd.finance:id/relayout')]/android.widget.TextView[contains(@index,1)]
+${platformName}    Android
+${platformVersion}    4.4.2
+${deviceName}     F8UDU15411001517
+${appPackage}     com.hsd.finance
+${appActivity}    com.hsd.finance.ui.activity.WelcomeActivity
+${unicodeKeyboard}    True
+${resetKeyboard}    True

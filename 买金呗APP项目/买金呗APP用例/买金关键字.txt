@@ -1,0 +1,252 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           Collections
+Library           Selenium2Library
+Resource          发现页关键字.txt
+Resource          买金关键字.txt
+Resource          首页关键字.txt
+Library           DatabaseLibrary
+Resource          数据库关键字.txt
+Resource          买金呗通用变量.txt
+
+*** Variables ***
+
+*** Keywords ***
+启动买金呗
+    启动APP    ${platformName}    ${platformVersion}    ${deviceName}    ${appPackage}    ${appActivity}
+
+进入实时金价页面
+    sleep    1
+    click text    id=com.hsd.finance:id/imgRefresh    #点击买金实时金价
+
+顶部实时金价
+    等待时间    1
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/layPrice
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/layPrice    #点击买金页面实时金价
+
+点击金荷包
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/tvContent    #等待存取灵活出现
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/tvContent    #点击金荷包
+
+定期金列表
+    sleep    1
+    Click Text    ${locatortext1}
+
+看涨跌列表
+    sleep    1
+
+获取买金页面列表文案
+    [Arguments]    ${locator1}
+    sleep    1
+    ${locatortext1}    Get Text    ${locator1}
+    [Return]    ${locatortext1}
+
+向上滑动
+    等待时间    5
+    ${size}    获取向上元素尺寸    id=com.hsd.finance:id/container    #获取元素尺寸
+    ${width}    Evaluate    ${size}.get('width')    #获取x轴数据
+    ${height}    Evaluate    ${size}.get('height')    #获取y轴数据
+    ${x_1}    Evaluate    ${width}*0.5
+    ${y_1}    Evaluate    ${height}*0.75
+    ${y_2}    Evaluate    ${y_1}*0.25
+    AppiumLibrary.Swipe    ${x_1}    ${y_1}    ${x_1}    ${y_2}
+
+向下滑动
+    等待时间    10
+    ${size}    获取向下元素尺寸    id=com.hsd.finance:id/container    #获取元素尺寸
+    ${width}    Evaluate    ${size}.get('width')
+    ${height}    Evaluate    ${size}.get('height')
+    ${x_x_1}    Evaluate    ${width}*0.5
+    ${y_y_1}    Evaluate    ${height}*0.25
+    ${y_y_2}    Evaluate    ${y_1}*0.75
+    AppiumLibrary.Swipe    ${x_x_1}    ${y_y_1}    ${x_x_1}    ${y_y_2}
+
+获取向上元素尺寸
+    [Arguments]    ${weizhi}
+    ${size}    AppiumLibrary.Get Element Size    ${weizhi}
+    [Return]    ${size}
+
+获取向下元素尺寸
+    [Arguments]    ${weizhi}
+    ${size}    AppiumLibrary.Get Element Size    ${weizhi}
+    [Return]    ${size}
+
+等待页面文案出现
+    [Arguments]    ${text}
+    AppiumLibrary.Wait Until Page Contains    ${text}
+    等待时间    1
+
+获取title
+    [Arguments]    ${locator}
+    ${locatortext}    AppiumLibrary.Get Text    ${locator}
+    [Return]    ${locatortext}
+
+点击金价走势页面存取灵活
+    AppiumLibrary.Wait Until Page Contains    存取灵活    #等待存取灵活出现
+    AppiumLibrary.Click Text    存取灵活    #点击金荷包
+
+点击首页新手金
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/btn_newer_buy    #点击新手金
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/btn_newer_buy    #点击新手金
+
+新手金详情-立即购买
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/tvBuyNow    #详情页面立即购买
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/tvBuyNow    #详情页面立即购买
+
+点击首页活期金
+    等待时间    1
+    AppiumLibrary.Wait Until Page Contains    存取灵活    #首页活期金产品
+    AppiumLibrary.Click Text    存取灵活    #首页活期金产品
+
+点击首页看涨跌
+    AppiumLibrary.Wait Until Page Contains    固定收益+金价浮动    #首页看涨跌产品
+    AppiumLibrary.Click Text    固定收益+金价浮动    #首页看涨跌产品
+
+判断文案
+    [Arguments]    ${text}    ${text1}
+    AppiumLibrary.Page Should Contain Text    ${text}    ${text1}    #判断文案是否存在
+
+点击买金页面定期金
+    AppiumLibrary.Wait Until Page Contains    定存黄金 增值保值    #买金页面定期金
+    AppiumLibrary.Click Text    定存黄金 增值保值    #买金页面定期金
+
+定期金详情-立即购买
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/tvBuyNow    #点击买金页面定期金
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/tvBuyNow    #点击买金页面定期金
+
+定期金-金荷包转入
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/tvGoldBagInto    #定期金金荷包转入
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/tvGoldBagInto    #定期金金荷包转入
+
+看涨跌-立即购买
+    AppiumLibrary.Wait Until Page Contains Element    xpath=//android.widget.LinearLayout[contains(@index,4)]/android.widget.TextView[contains(@text,'立即购买')]    #看涨跌立即购买
+    AppiumLibrary.Click Element    xpath=//android.widget.LinearLayout[contains(@index,4)]/android.widget.TextView[contains(@text,'立即购买')]    #看涨跌立即购买
+
+等待元素出现
+    [Arguments]    ${titles}
+    等待时间    3
+    AppiumLibrary.Wait Until Page Contains Element    ${titles}
+
+金额购买
+    [Arguments]    ${kezhong}
+    等待时间    5
+    AppiumLibrary.Wait Until Page Contains Element    xpath=//android.widget.LinearLayout[contains(@index,1)]/android.widget.EditText[contains(@resource-id,'com.hsd.finance:id/goldPocketEt')]    #克重输入框
+    AppiumLibrary.Click Element    xpath=//android.widget.LinearLayout[contains(@index,1)]/android.widget.EditText[contains(@resource-id,'com.hsd.finance:id/goldPocketEt')]
+    AppiumLibrary.Clear Text    xpath=//android.widget.LinearLayout[contains(@index,1)]/android.widget.EditText[contains(@resource-id,'com.hsd.finance:id/goldPocketEt')]
+    AppiumLibrary.Input Text    xpath=//android.widget.LinearLayout[contains(@index,1)]/android.widget.EditText[contains(@resource-id,'com.hsd.finance:id/goldPocketEt')]    ${kezhong}    #克重输入框
+
+克重购买
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/goldPocketBuyKG    #克重购买
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/goldPocketBuyKG    #克重购买
+
+余额购买
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/goldPocketBuyTip    #余额购买
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/goldPocketBuyTip    #余额购买
+
+输入金额-立即购买
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/btnCurrentBuy    #等待元素出现
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/btnCurrentBuy    #点击立即购买
+
+定期金立即购买页面
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/btnCurrentBuy    #点击定期金立即购买页面
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/btnCurrentBuy    #点击定期金立即购买页面
+
+定期金确认支付页面
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/btnConfirmPay    #点击确认支付
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/btnConfirmPay    #点击确认支付
+
+输入交易密码
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/edtText    #输入交易密码
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/edtText
+    AppiumLibrary.Clear Text    id=com.hsd.finance:id/edtText
+    AppiumLibrary.Input Text    id=com.hsd.finance:id/edtText    ${交易密码}    #输入交易密码
+    隐藏键盘
+
+确认付款按钮
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/btnConfirm    #点击确认付款
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/btnConfirm    #点击确认付款
+
+隐藏键盘
+    AppiumLibrary.Hide Keyboard
+
+点击我的账户
+    AppiumLibrary.Wait Until Page Contains    我的账户    #点击我的账户，返回我的额页面
+    AppiumLibrary.Click Text    我的账户    #返回我的页面
+
+点击继续购买
+    AppiumLibrary.Wait Until Page Contains    继续购买    #点击继续购买
+    AppiumLibrary.Click Text    继续购买    #返回买金页面
+
+选金额
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/goldPocketBuyMoney    #选择金额
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/goldPocketBuyMoney    #选择金额
+
+进入红包页面
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/tvUsablePocket    #进入红包页面
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/tvUsablePocket    #进入红包页面
+    等待时间    2
+    ${title}    获取title    id=com.hsd.finance:id/tvTitle
+    log    ${title}
+    红包选择判断
+
+定期金确认订单
+    等待时间    2
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/btnConfirmPay
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/btnConfirmPay
+
+判断订单页面弹窗
+    [Documentation]    com.hsd.finance:id/ivClose
+    等待时间    10
+    ${status}    Run Keyword And Return Status    页面存在元素    id=com.hsd.finance:id/ivClose
+    Run Keyword If    '${status}'=='True'    Run Keyword    关闭订单页面弹窗
+    ...    ELSE    Run Keyword    log    弹窗已出现过
+
+暂无红包使用
+    等待时间    8
+    ${status}    获取title    id=com.hsd.finance:id/tvUsablePocket
+    Run Keyword If    '${status}'=='暂无可用红包'    Run Keyword    log    暂无红包
+    ...    ELSE    Run Keyword    进入红包页面
+
+余额小于支付金额
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/tvOrderSum
+    ${list}    获取title    id=com.hsd.finance:id/tvBuySum
+    ${a}    Set Variable    ${list[1]}
+    ${b}    Set Variable    ${list[3]}
+    ${c}    Set Variable    ${list[4]}
+    ${d}    Set Variable    ${list[5]}
+    ${e}    Set Variable    ${list[6]}
+    ${f}    Set Variable    ${list[7]}
+    ${g}    Set Variable    ${list[8]}
+    ${支付金额}    Set Variable    ${a}${b}${c}${d}${e}${f}${g}
+    等待时间    1
+    Run Keyword If    int(${支付金额})>=int(2000.00)    Run Keyword    账户余额不足修改
+    ...    ELSE    Run Keyword    log    修改成功
+
+点击定期金30天
+    等待时间    1
+    AppiumLibrary.Wait Until Page Contains    定期金30天
+    AppiumLibrary.Click Text    定期金30天
+
+点击首页看涨产品
+    等待时间    1
+    AppiumLibrary.Wait Until Page Contains Element    xpath=//android.widget.LinearLayout[contains(@index,1)]/android.widget.TextView[contains(@resource-id,'com.hsd.finance:id/tv_title')]
+    AppiumLibrary.Click Element    xpath=//android.widget.LinearLayout[contains(@index,1)]/android.widget.TextView[contains(@resource-id,'com.hsd.finance:id/tv_title')]    #点击看涨产品
+
+看涨跌金额输入框
+    [Arguments]    ${购买金额}
+    等待时间    2
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/edtAmount
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/edtAmount
+    AppiumLibrary.Clear Text    id=com.hsd.finance:id/edtAmount
+    AppiumLibrary.Input Text    id=com.hsd.finance:id/edtAmount    ${购买金额}
+
+红包选择判断
+    ${staues}    Run Keyword And Return Status    页面存在元素    id=com.hsd.finance:id/itemcheckBox
+    Run Keyword If    '${staues}'=='True'    Run Keyword    选择红包
+    ...    ELSE    Run Keyword    点击返回键
+
+选择红包
+    页面存在元素    id=com.hsd.finance:id/itemcheckBox
+    AppiumLibrary.Wait Until Page Contains Element    id=com.hsd.finance:id/itemcheckBox    #选择红包
+    AppiumLibrary.Click Element    id=com.hsd.finance:id/itemcheckBox
+    等待时间    2

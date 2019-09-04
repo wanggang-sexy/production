@@ -1,0 +1,206 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           Selenium2Library
+Library           Collections
+Library           DatabaseLibrary
+Resource          发现页关键字.txt
+Resource          买金关键字.txt
+Resource          首页关键字.txt
+Resource          数据库关键字.txt
+Resource          买金呗通用变量.txt
+
+*** Test Cases ***
+卸载买金呗APP
+    启动买金呗
+    卸载APP    com.hsd.finance
+    [Teardown]    Close Application
+
+安装APP
+    安装买金呗APP    ${platformName}    ${platformVersion}    ${deviceName}    app=app-maijinbei_1.2.apk
+    启动页面
+    [Teardown]    Close Application
+
+查看平台公告页面详情
+    [Setup]
+    启动买金呗
+    判断弹窗是否存在
+    屏幕截图
+    点击左上角公告
+    屏幕截图
+    等待元素出现    ${title元素}
+    ${locatortext}    获取title    ${title元素}
+    log    ${locatortext}
+    向上滑动
+    向上滑动
+    判断文案    ${locatortext}    平台公告
+    点击返回键
+    [Teardown]    Close Application
+
+查看新手指引页面详情
+    启动买金呗
+    判断弹窗是否存在
+    屏幕截图
+    点击新手指引
+    屏幕截图
+    等待元素出现    ${title元素}
+    ${locatortext}    获取title    ${title元素}
+    log    ${locatortext}
+    向上滑动
+    向上滑动
+    向上滑动
+    判断文案    ${locatortext}    新手指引
+    点击返回键
+    [Teardown]    Close Application
+
+查看了解我们页面详情
+    启动买金呗
+    判断弹窗是否存在
+    屏幕截图
+    点击了解我们
+    屏幕截图
+    等待元素出现    ${title元素}
+    ${locatortext}    获取title    ${title元素}
+    log    ${locatortext}
+    向上滑动
+    向上滑动
+    向上滑动
+    判断文案    ${locatortext}    了解我们
+    点击返回键
+    [Teardown]    Close Application
+
+查看安全保障页面详情
+    启动买金呗
+    判断弹窗是否存在
+    屏幕截图
+    点击安全保障
+    屏幕截图
+    等待元素出现    ${title元素}
+    ${locatortext}    获取title    ${title元素}
+    log    ${locatortext}
+    向上滑动
+    向上滑动
+    向上滑动
+    判断文案    ${locatortext}    安全保障
+    点击返回键
+    [Teardown]    Close Application
+
+查看邀请有礼页面详情
+    启动买金呗
+    判断弹窗是否存在
+    屏幕截图
+    点击邀请有礼
+    屏幕截图
+    等待元素出现    ${title元素}
+    ${locatortext}    获取title    ${title元素}
+    log    ${locatortext}
+    向上滑动
+    向上滑动
+    向上滑动
+    判断文案    ${locatortext}    邀请有礼
+    点击返回键
+    [Teardown]    Close Application
+
+关闭首页滚动公告
+    启动买金呗
+    判断弹窗是否存在
+    屏幕截图
+    关闭公告
+    屏幕截图
+    元素不存在    ${首页关闭公告元素}
+    log    关闭成功
+    [Teardown]    Close Application
+
+查看滚动公告详情
+    启动买金呗
+    判断弹窗是否存在
+    屏幕截图
+    点击滚动公告信息
+    向上滑动
+    等待元素出现    ${title元素}
+    ${locatortext}    获取title    ${title元素}
+    log    ${locatortext}
+    判断文案    ${locatortext}    公告详情
+    点击返回键
+    页面存在元素    ${首页关闭公告元素}
+    log    OK
+    [Teardown]    Close Application
+
+查看首页新手金详情
+    启动买金呗
+    判断弹窗是否存在
+    登录前判断账号已登录
+    屏幕截图
+    等待页面文案出现    立即购买
+    向上滑动
+    点击首页新手金
+    屏幕截图
+    向上滑动
+    向上滑动
+    向上滑动
+    等待元素出现    ${title元素}
+    ${locatortext}    获取title    ${title元素}
+    判断文案    ${locatortext}    新手专享金
+    点击返回键
+    页面存在元素    ${首页立即购买元素}
+    [Teardown]    Close Application
+
+查看首页活期金详情
+    启动买金呗
+    判断弹窗是否存在
+    屏幕截图
+    等待页面文案出现    立即购买
+    向上滑动
+    点击首页活期金
+    屏幕截图
+    向上滑动
+    向上滑动
+    向上滑动
+    等待元素出现    ${title元素}
+    ${locatortext}    获取title    ${title元素}
+    判断文案    ${locatortext}    点击金荷包
+    点击返回键
+    页面存在元素    ${首页立即购买元素}
+    [Teardown]    Close Application
+
+查看首页产品介绍详情
+    启动买金呗
+    判断弹窗是否存在
+    等待页面文案出现    立即购买
+    屏幕截图
+    向上滑动
+    点击产品介绍
+    屏幕截图
+    等待元素出现    ${title元素}
+    ${locatortext}    获取title    ${title元素}
+    判断文案    ${locatortext}    产品介绍
+    等待时间    2
+    屏幕截图
+    向上滑动
+    屏幕截图
+    点击返回键
+    等待时间    5
+    log    OK
+    Comment    向上滑动
+    Comment    等待时间    5
+    Comment    页面存在元素    xpath=//android.view.View[contains(@index,10)]/android.view.View[contains(@content-desc,'Link')]
+    Comment    等待时间    5
+    Comment    AppiumLibrary.Click Element    xpath=//android.view.View[contains(@index,10)]/android.view.View[contains(@content-desc,'Link')]    #产品介绍页面保价金
+    Comment    等待元素出现    id=com.hsd.finance:id/tvTitle
+    Comment    ${locatortext}    获取title    id=com.hsd.finance:id/tvTitle
+    Comment    判断文案    ${locatortext}    保价金
+    Comment    向上滑动
+    Comment    向上滑动
+    Comment    点击返回键
+    Comment    向上滑动
+    Comment    等待时间    5
+    Comment    页面存在元素    xpath=//android.view.View[contains(@index,14)]/android.view.View[contains(@content-desc,'Link')]
+    Comment    AppiumLibrary.Click Element    xpath=//android.view.View[contains(@index,14)]/android.view.View[contains(@content-desc,'Link')]
+    Comment    等待元素出现    id=com.hsd.finance:id/tvTitle
+    Comment    ${locatortext}    获取title    id=com.hsd.finance:id/tvTitle
+    Comment    判断文案    ${locatortext}    看涨跌
+    Comment    向上滑动
+    Comment    向上滑动
+    Comment    点击返回键
+    Comment    点击返回键
+    Comment    页面存在元素    id=com.hsd.finance:id/btn_buy_gold    #立即购买按钮
+    [Teardown]    Close Application

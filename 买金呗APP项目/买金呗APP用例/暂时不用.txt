@@ -1,0 +1,22 @@
+*** Settings ***
+Library           Process
+
+*** Test Cases ***
+查看首页金饰详情
+    启动买金呗
+    等待时间    5
+    等待页面文案出现    立即购买
+    向上滑动
+    向上滑动
+    进入金饰页面
+    等待元素出现    id=com.hsd.finance:id/tvTitle
+    ${locatortext}    获取title    id=com.hsd.finance:id/tvTitle
+    判断文案    ${locatortext}    金饰
+    向上滑动
+    向上滑动
+    点击返回键
+    页面存在元素    id=com.hsd.finance:id/btn_buy_gold    #立即购买按钮
+    [Teardown]    Close Application
+
+test
+    ${res}=    start process    python    -c    print 'hello,world!'
